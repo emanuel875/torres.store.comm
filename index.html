@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Torres Store - Login Gamer</title>
+<style>
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+  }
+  .login-container {
+    background: #111;
+    padding: 40px;
+    border: 2px solid #00fff7;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px #00fff7;
+  }
+  input, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 1em;
+  }
+  input { background: #222; color: #fff; }
+  button { background: #00fff7; color: #000; cursor: pointer; transition: 0.3s; }
+  button:hover { background: #00c1b5; }
+  a { color: #00fff7; text-decoration: none; display: block; margin-top: 10px; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="login-container">
+  <h2>Iniciar Sesión Gamer</h2>
+  <input type="text" id="usuario" placeholder="Ingresa tu nombre">
+  <button id="btnLogin">Ingresar</button>
+  <a href="register.html">Registrar nuevo usuario</a>
+</div>
+
+<script>
+  const btnLogin = document.getElementById('btnLogin');
+  btnLogin.addEventListener('click', () => {
+    const nombre = document.getElementById('usuario').value.trim();
+    if(nombre === '') { alert('Ingresa tu nombre'); return; }
+    localStorage.setItem('usuario', nombre);
+    window.location.href = 'principal.html';
+  });
+</script>
+</body>
+</html>

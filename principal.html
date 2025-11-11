@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Torres Store - Gamer</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+  }
+
+  header {
+    background: #111;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #00fff7;
+  }
+
+  header h1 {
+    margin: 0;
+    color: #00fff7;
+  }
+
+  header p {
+    margin: 5px 0;
+    color: #fff;
+  }
+
+  header button {
+    padding: 8px 14px;
+    margin-top: 10px;
+    cursor: pointer;
+    background: #00fff7;
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    transition: 0.3s;
+    font-weight: bold;
+  }
+
+  header button:hover {
+    background: #00c1b5;
+  }
+
+  main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #111;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 12px;
+    border: 2px solid #00fff7;
+    width: 250px;
+    box-shadow: 0 0 15px #00fff7;
+    transition: 0.3s;
+  }
+
+  .producto:hover {
+    transform: scale(1.05);
+  }
+
+  .producto img {
+    width: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .producto button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #00fff7;
+    color: #000;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+    font-weight: bold;
+  }
+
+  .producto button:hover {
+    background: #00c1b5;
+  }
+
+  .panel {
+    background: #111;
+    border: 2px solid #00fff7;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 260px;
+    text-align: center;
+    box-shadow: 0 0 15px #00fff7;
+  }
+
+  .whatsapp {
+    margin-top: 10px;
+    color: #00fff7;
+    font-weight: bold;
+  }
+
+  .productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* reproductor fijo estilo gamer */
+  .audio-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #111;
+    border: 2px solid #00fff7;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 0 15px #00fff7;
+    z-index: 1000;
+  }
+
+  audio {
+    filter: drop-shadow(0 0 5px #00fff7);
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Torres Store Gamer</h1>
+  <p id="bienvenida">Cargando usuario...</p>
+  <button id="logoutBtn">Cerrar sesión</button>
+</header>
+
+<main>
+  <h2 style="color:#00fff7;">Productos</h2>
+  <div class="productos-container" id="productos"></div>
+  <div class="panel" id="panel"></div>
+  <div class="whatsapp" id="whatsapp"></div>
+</main>
+
+<!-- 🎵 Reproductor de música gamer -->
+<div class="audio-player">
+  <audio controls autoplay loop>
+    <source src="https://files.catbox.moe/mj5npw.mp3" type="audio/mpeg" />
+    Tu navegador no soporta audio.
+  </audio>
+</div>
+
+<script>
+  // --- Comprobar login ---
+  const usuario = localStorage.getItem("usuario");
+  const correo = localStorage.getItem("correo");
+
+  if (!usuario) {
+    window.location.href = "index.html";
+  } else {
+    const bienvenida = document.getElementById("bienvenida");
+    bienvenida.textContent = correo
+      ? `¡Bienvenido, ${usuario} (${correo})!`
+      : `¡Bienvenido, ${usuario}!`;
+  }
+
+  // --- Datos de la tienda ---
+  const data = {
+    productos: [
+      {
+        nombre: "Proyecto PC",
+        precio: 200,
+        imagen: "img/proyecto_pc.jpg", // asegúrate de que exista esta imagen
+      },
+    ],
+    panel: { semanal: 30, mensual: 80 },
+    contacto_whatsapp: "+51986608454",
+  };
+
+  // --- Mostrar productos ---
+  const productosDiv = document.getElementById("productos");
+  productosDiv.innerHTML = "";
+  data.productos.forEach((prod) => {
+    const div = document.createElement("div");
+    div.classList.add("producto");
+    div.innerHTML = `
+      <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.src='https://via.placeholder.com/200x150?text=Imagen+no+disponible'">
+      <strong>${prod.nombre}</strong><br>
+      Precio: S/. ${prod.precio}<br>
+      <button onclick="comprar('${prod.nombre}', ${prod.precio})">Comprar</button>
+    `;
+    productosDiv.appendChild(div);
+  });
+
+  // --- Función de compra ---
+  function comprar(nombre, precio) {
+    alert(`¡Has comprado ${nombre} por S/. ${precio}!`);
+  }
+
+  // --- Mostrar panel ---
+  const panelDiv = document.getElementById("panel");
+  panelDiv.innerHTML = `
+    <strong>Panel de pagos:</strong><br>
+    Semanal: S/. ${data.panel.semanal}<br>
+    Mensual: S/. ${data.panel.mensual}
+  `;
+
+  // --- WhatsApp ---
+  const whatsappDiv = document.getElementById("whatsapp");
+  whatsappDiv.innerHTML = `Contáctanos por WhatsApp: ${data.contacto_whatsapp}`;
+
+  // --- Cerrar sesión ---
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("correo");
+    window.location.href = "index.html";
+  });
+</script>
+</body>
+</html>
